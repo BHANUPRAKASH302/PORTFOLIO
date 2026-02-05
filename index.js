@@ -5,37 +5,41 @@ $(".menu-btn").click(function () {
 });
 
 document.addEventListener("DOMContentLoaded", function () {
-  emailjs.init("bMNPtUmgroIe3lr47");
+  const form = document.getElementById("contact-form");
+  const submitBtn = document.getElementById("submit-btn");
 
-  document.getElementById("contact-form").addEventListener("submit", function (event) {
-      event.preventDefault();
+  form.addEventListener("submit", async function (event) {
+    event.preventDefault();
 
-      const topic = document.getElementById("topic").value;
-      const name = document.getElementById("name").value;
-      const message = document.getElementById("message").value;
-      const email = document.getElementById("email").value;
+    const originalText = submitBtn.textContent;
+    submitBtn.textContent = "Sending...";
+    submitBtn.disabled = true;
 
-      if (topic && name && message && email) {
-          const mails = {
-              subject: topic,
-              from_name: name,
-              message: message,
-              email_id: email
-          };
+    const formData = new FormData(form);
 
-          emailjs.send("service_c72v8jf", "template_wfi7h9x", mails)
-              .then(function (response) {
-                  console.log("SUCCESS!", response.status, response.text);
-                  document.getElementById("alert").style.visibility = "visible";
-                  document.getElementById("topic").value = "";
-                  document.getElementById("name").value = "";
-                  document.getElementById("message").value = "";
-                  document.getElementById("email").value = "";
-              }, function (error) {
-                  console.log("FAILED...", error);
-                  document.getElementById("alert-error").style.visibility = "visible";
-              });
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: formData
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        document.getElementById("alert").style.visibility = "visible";
+        document.getElementById("alert-error").style.visibility = "hidden";
+        form.reset();
+      } else {
+        document.getElementById("alert-error").style.visibility = "visible";
+        document.getElementById("alert").style.visibility = "hidden";
       }
+    } catch (error) {
+      document.getElementById("alert-error").style.visibility = "visible";
+      document.getElementById("alert").style.visibility = "hidden";
+    } finally {
+      submitBtn.textContent = originalText;
+      submitBtn.disabled = false;
+    }
   });
 });
 //resume unavilable
