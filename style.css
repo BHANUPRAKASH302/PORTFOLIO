@@ -804,15 +804,25 @@ section .title:hover {
 
 /* Media Queries for Responsiveness */
 @media (max-width: 1200px) {
-  .education .box-container .box {
+  .education .box-container .box,
+  .services .box-container .box,
+  .experience .box-container .box {
     width: calc(50% - 2rem);
   }
 }
 
 @media (max-width: 768px) {
-  .education .box-container .box {
+  .education .box-container .box,
+  .services .box-container .box,
+  .experience .box-container .box {
     width: 100%;
     margin: 1rem 0;
+  }
+  .about .about-content .left img {
+    width: 280px;
+    height: 280px;
+    max-width: 100%;
+    object-fit: cover;
   }
 }
 
@@ -960,7 +970,9 @@ footer {
     z-index: 999;
   }
   .home {
-    background: url("./Images/1.png");
+    background: url("Images/1.png") no-repeat center;
+    background-size: cover;
+    background-attachment: scroll;
   }
   .menu-btn i.active:before {
     content: "\f00d";
@@ -1042,7 +1054,9 @@ footer {
     width: 100%;
   }
   .home {
-    background: url("./Images/1.png");
+    background: url("Images/1.png") no-repeat center;
+    background-size: cover;
+    background-attachment: scroll;
   }
 }
 
@@ -1067,7 +1081,9 @@ footer {
     width: 150px;
   }
   .home {
-    background: url("./Images/1.png");
+    background: url("Images/1.png") no-repeat center;
+    background-size: cover;
+    background-attachment: scroll;
   }
 }
 
